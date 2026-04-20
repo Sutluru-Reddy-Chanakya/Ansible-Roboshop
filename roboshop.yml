@@ -29,3 +29,10 @@
     - name: print ec2 output
       ansible.builtin.debug:
         msg: "{{ ec2_output }}"
+
+
+
+
+
+
+        
