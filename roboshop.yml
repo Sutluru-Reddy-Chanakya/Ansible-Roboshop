@@ -16,8 +16,6 @@
         instance_type: "t3.micro"
         security_groups: "{{ sg_id }}"
         image: "{{ ami_id }}"
-        wait: yes
-        count: 1
         instance_tags:
           project: "roboshop"
           env: "{{ env }}"
@@ -35,4 +33,4 @@
 
 
 
-        
+
