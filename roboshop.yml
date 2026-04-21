@@ -1,32 +1,36 @@
-# ansible-playbook -i localhost,   -e '{"instances":["mongodb","catalogue","redis","user","cart","mysql","shipping","rabbitmq","payment","frontend"]}'  -e action=destroy roboshop.yaml
 - name: create ec2 and r53 records
-  hosts: all
+  hosts: localhost
   connection: local
-  vars:
-    sg_id: sg-00bbb1407c348af3d
-    ami_id: ami-0220d79f3f480ecf5
-    # domain_name: daws88s.online
-    env: dev
-    action: create
-    instances:
-    - mongodb
-    - catalogue
-  tasks:
-  ### CREATE ###
-  - name: create ec2 instance
-    amazon.aws.ec2_instance:
-      instance_type: "t3.micro"
-      security_group: "{{ sg_id }}"
-      image_id: "{{ ami_id }}"
-      name: "{{ item }}-{{ env }}"
-      tags:
-        Project: roboshop
-        Component: "{{ item }}"
-        Environment: "{{ env }}"
-        Name: "{{ item }}-{{ env }}"
-    loop: "{{ instances }}"
-    register: ec2_output
 
-    - name:print ec2 output
+  vars:
+    sg_id: "sg-00bbb1407c348af3d"
+    ami_id: "ami-0220d79f3f480ecf5"
+    env: "dev"
+    action: "create"
+    instances:
+      - mongodb
+      - catalogue
+
+  tasks:
+
+    ### CREATE ###
+    - name: create ec2 instance
+      amazon.aws.ec2_instance:
+        instance_type: "t3.micro"
+        security_group:
+          - "{{ sg_id }}"
+        image_id: "{{ ami_id }}"
+        name: "{{ item }}-{{ env }}"
+        tags:
+          Project: "roboshop"
+          Component: "{{ item }}"
+          Environment: "{{ env }}"
+          Name: "{{ item }}-{{ env }}"
+      loop: "{{ instances }}"
+      register: ec2_output
+  
+
+    - name: print ec2 output
       ansible.builtin.debug:
         msg: "{{ ec2_output }}"
+      
