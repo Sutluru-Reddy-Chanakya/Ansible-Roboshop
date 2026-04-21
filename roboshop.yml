@@ -4,7 +4,7 @@
   vars:
     sg_id: sg-00bbb1407c348af3d
     ami_id: ami-0220d79f3f480ecf5
-    # domain_name: daws88s.online
+    domain_name: cineniti.in
     env: dev
     action: create
     instances:
