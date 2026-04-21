@@ -43,6 +43,7 @@
       wait: false
       overwrite: true
     loop: "{{ ec2_output.results }}" # list
+    when: action == "create"
 
   - name: create r53 records
     amazon.aws.route53:
@@ -56,5 +57,14 @@
       overwrite: true
     loop: "{{ ec2_output.results }}" # list
 
-    when: item.item == "frontend"
+    when: 
+    - item.item == "frontend"
+    - action == "create"
+
+  - name: delete ec2 instance
+    amazon.aws.ec2_instance:
+      state: absent
+      name: "{{ item }}-{{ env }}"
+    loop: "{{ instances }}"
+    when: action == "delete"
     
