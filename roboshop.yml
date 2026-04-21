@@ -36,11 +36,25 @@
     amazon.aws.route53:
       state: present
       zone: "{{ domain_name }}"
-      record: "{{ item.item }}-{{ env }}.{{ domain_name }}" # mongodb-dev.daws88s.online, frontend-dev.daws88s.online
+      record: "{{ item.item }}-{{ env }}.{{ domain_name }}" # mongodb-dev.cineniti.in, frontend-dev.cineniti.in
       type: A
       ttl: 1
       value: "{{ item.instances[0].private_ip_address }}"
       wait: false
       overwrite: true
     loop: "{{ ec2_output.results }}" # list
+
+  - name: create r53 records
+    amazon.aws.route53:
+      state: present
+      zone: "{{ domain_name }}"
+      record: "roboshop{{ item.item }}-{{ env }}.{{ domain_name }}" # mongodb-dev.cineniti.in, frontend-dev.cineniti.in
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].public_ip_address }}"
+      wait: false
+      overwrite: true
+    loop: "{{ ec2_output.results }}" # list
+
+    when: item.item == "frontend"
     
