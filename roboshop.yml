@@ -3,8 +3,8 @@
   connection: local
 
   vars:
-    sg_id: "sg-00bbb1407c348af3d"
-    ami_id: "ami-0220d79f3f480ecf5"
+    sg_id: sg-00bbb1407c348af3d
+    ami_id: ami-0220d79f3f480ecf5
     env: "dev"
     action: "create"
     instances:
@@ -17,8 +17,9 @@
     - name: create ec2 instance
       amazon.aws.ec2_instance:
         instance_type: "t3.micro"
-        security_group:
-          - "{{ sg_id }}"
+        security_group: "{{ sg_id }}" 
+        # security_group_ids:
+        #   - "{{ sg_id }}"
         image_id: "{{ ami_id }}"
         name: "{{ item }}-{{ env }}"
         tags:
