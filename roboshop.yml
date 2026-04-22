@@ -1,10 +1,11 @@
 # ansible-playbook -i localhost,   -e '{"instances":["mongodb","catalogue","redis","user","cart","mysql","shipping","rabbitmq","payment","frontend"]}'  -e action=destroy roboshop.yaml
 
-# ansible-playbook -i localhost,   -e '{"instances":["mongodb","catalogue","redis","user","cart","mysql","shipping","rabbitmq","payment","frontend"]}'  -e  roboshop.yaml
+#pip3.9 install botocore boto3
+#sudo dnf install ansible -y
 
 - name: create ec2 and r53 records
-  hosts: all
-  connection: local
+  hosts: 
+  connection: all
   vars:
     sg_id: sg-00bbb1407c348af3d
     ami_id: ami-0220d79f3f480ecf5
@@ -12,8 +13,8 @@
     env: dev
     action: create
     instances:
-    - mongodb
-    - catalogue
+    # - mongodb
+    # - catalogue
   tasks:
   ### CREATE ###
   - name: create ec2 instance
