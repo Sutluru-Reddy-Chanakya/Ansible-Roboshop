@@ -4,7 +4,7 @@
 #sudo dnf install ansible -y
 
 - name: create ec2 and r53 records
-  hosts: all
+  hosts: localhost
   connection: all
   vars:
     sg_id: sg-00bbb1407c348af3d
